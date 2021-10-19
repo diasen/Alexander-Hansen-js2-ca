@@ -1,5 +1,5 @@
 import { BASE_URL } from './configs/config.js';
-
+import { filteringAnArray } from './libs/filteredArray.js';
 import {
   saveToLocalStorage,
   getFromLocalStorage,
@@ -63,5 +63,35 @@ async function getArticles() {
       }
     };
   });
+
+  let search = document.querySelector('.search');
+  let searchResults = document.querySelector('.articleCards');
+  search.onkeyup = function () {
+    searchResults.innerHTML = '';
+
+    if (search.value === '') {
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    let filteredArray = filteringAnArray(articlesData, search.value);
+
+    console.log(filteredArray);
+    filteredArray.forEach(({ id, title, summary, author }) => {
+      cards.innerHTML += `
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${title}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${author}</h6>
+                        <p class="card-text">${summary}</p>
+                        <div>
+                            <a href="#" class="card-link">Read more</a>
+                            <i class="far fa-heart" data-id="${id}" data-author="${author}" data-title="${title}" data-summary="${summary}"></i>
+                        </div>  
+                    </div>
+                </div>
+    `;
+    });
+  };
 }
 getArticles();
