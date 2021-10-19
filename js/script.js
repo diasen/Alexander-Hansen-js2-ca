@@ -1,5 +1,67 @@
-import writeHtmlToDom from './utils/writeHtmlToDom.js';
+import { BASE_URL } from './configs/config.js';
+
 import {
-  getFromLocalStorage,
   saveToLocalStorage,
+  getFromLocalStorage,
 } from './utils/localStorageUtils.js';
+
+async function getArticles() {
+  let response = await axios.get(`${BASE_URL}`);
+
+  let articlesData = response.data;
+  console.log(articlesData);
+
+  let cards = document.querySelector('.articleCards');
+
+  articlesData.forEach(({ id, title, summary, author }) => {
+    cards.innerHTML += `
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${author}</h6>
+                    <p class="card-text">${summary}</p>
+                    <div>
+                        <a href="#" class="card-link">Read more</a>
+                        <i class="far fa-heart" data-id="${id}" data-author="${author}" data-title="${title}" data-summary="${summary}"></i>
+                    </div>  
+                </div>
+            </div>
+`;
+  });
+
+  let favouritesToggle = document.querySelectorAll('.fa-heart');
+
+  favouritesToggle.forEach((element) => {
+    element.onclick = function () {
+      element.classList.toggle('fas');
+      console.log(element.dataset.id);
+
+      let localStorageObject = {
+        id: element.dataset.id,
+        author: element.dataset.author,
+        title: element.dataset.title,
+        summary: element.dataset.summary,
+      };
+
+      let favourites = getFromLocalStorage('favourites');
+
+      let isInStorage = favourites.find(
+        (productObject) => productObject.id === localStorageObject.id
+      );
+
+      console.log('isInStorage', isInStorage);
+
+      if (isInStorage === undefined) {
+        favourites.push(localStorageObject);
+        saveToLocalStorage('favourites', favourites);
+      } else {
+        let removedElementArray = favourites.filter(
+          (productObject) => productObject.id !== localStorageObject.id
+        );
+
+        saveToLocalStorage('favourites', removedElementArray);
+      }
+    };
+  });
+}
+getArticles();
