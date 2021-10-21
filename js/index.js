@@ -44,10 +44,12 @@ async function getArticles() {
       };
 
       let favourites = getFromLocalStorage('favourites');
+      console.log(favourites);
 
       let isInStorage = favourites.find(
         (productObject) => productObject.id === localStorageObject.id
       );
+      console.log(isInStorage);
 
       console.log('isInStorage', isInStorage);
 
@@ -66,6 +68,7 @@ async function getArticles() {
 
   let search = document.querySelector('.search');
   let searchResults = document.querySelector('.articleCards');
+
   search.onkeyup = function () {
     searchResults.innerHTML = '';
 
