@@ -1,17 +1,13 @@
-import {
-  saveToLocalStorage,
-  getFromLocalStorage,
-} from './utils/localStorageUtils.js';
+import { getFromLocalStorage } from './utils/localStorageUtils.js';
 
 let favourites = getFromLocalStorage('favourites');
-console.log(favourites);
-
 let favouriteCards = document.querySelector('.favouriteCards');
 const clearLocalStorage = document.querySelector('.clearBtn');
 
 if (favourites.length === 0) {
   document.querySelector('.favouriteCards').innerHTML =
     '<h5>You have not selected any favourites</h5>';
+  clearLocalStorage.style.display = 'none';
 }
 
 favourites.forEach(({ id, title, summary, author }) => {
@@ -34,4 +30,5 @@ clearLocalStorage.onclick = function () {
   localStorage.clear();
   document.querySelector('.favouriteCards').innerHTML =
     '<h5>All favourites removed</h5>';
+  clearLocalStorage.style.display = 'none';
 };
