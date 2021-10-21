@@ -1,3 +1,7 @@
+.fas {
+  color: red;
+}
+
 h1 {
   margin: 50px 0;
 }
@@ -10,5 +14,17 @@ input {
   width: 60%;
   height: 30px;
   border-radius: 5px;
+}
+
+.clearBtn {
+  height: 40px;
+  width: 200px;
+  border: none;
+  padding: 0 18px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 50px 0;
 }
 /*# sourceMappingURL=styles.css.map */
