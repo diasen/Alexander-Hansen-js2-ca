@@ -7,7 +7,6 @@ import {
 
 async function getArticles() {
   let response = await axios.get(`${BASE_URL}`);
-
   let articlesData = response.data;
   console.log(articlesData);
 
@@ -49,9 +48,6 @@ async function getArticles() {
       let isInStorage = favourites.find(
         (productObject) => productObject.id === localStorageObject.id
       );
-      console.log(isInStorage);
-
-      console.log('isInStorage', isInStorage);
 
       if (isInStorage === undefined) {
         favourites.push(localStorageObject);
@@ -72,14 +68,8 @@ async function getArticles() {
   search.onkeyup = function () {
     searchResults.innerHTML = '';
 
-    if (search.value === '') {
-      searchResults.innerHTML = '';
-      return;
-    }
-
     let filteredArray = filteringAnArray(articlesData, search.value);
 
-    console.log(filteredArray);
     filteredArray.forEach(({ id, title, summary, author }) => {
       cards.innerHTML += `
       <div class="card" style="width: 18rem;">
